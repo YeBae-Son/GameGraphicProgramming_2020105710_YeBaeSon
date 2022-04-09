@@ -141,7 +141,7 @@ namespace library
     BaseWindow<DerivedType>::BaseWindow()
         : m_hInstance(nullptr)
         , m_hWnd(nullptr)
-        , m_pszWindowName(L"Default")
+        , m_pszWindowName(L"")
     { }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -211,6 +211,8 @@ namespace library
         _In_opt_ HWND hWndParent,
         _In_opt_ HMENU hMenu)
     {
+        m_pszWindowName = pszWindowName;
+        m_hInstance = hInstance;
         WNDCLASSEX wcex;
         wcex.cbSize = sizeof(WNDCLASSEX);
         wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -227,7 +229,7 @@ namespace library
         if (!RegisterClassEx(&wcex))
             return E_FAIL;
 
-        m_hInstance = hInstance;
+        
         m_hWnd = CreateWindow(GetWindowClassName(), pszWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, this);
         if (!m_hWnd)
             return E_FAIL;

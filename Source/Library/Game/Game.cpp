@@ -44,19 +44,19 @@ namespace library
 
 	HRESULT Game::Initialize(_In_ HINSTANCE hInstance, _In_ INT nCmdShow)
 	{
-		HRESULT hr = S_OK;
+		HRESULT hr = m_mainWindow->Initialize(hInstance, nCmdShow, m_pszGameName);
 
-		hr = (m_mainWindow->Initialize(hInstance, nCmdShow, m_pszGameName));
 		if (FAILED(hr))
+		{
 			return hr;
+		}
 
-		HWND m_hWnd;
+		hr = m_renderer->Initialize(m_mainWindow->GetWindow());
 
-		m_hWnd = m_mainWindow->GetWindow();
-
-		hr = m_renderer->Initialize(m_hWnd);
 		if (FAILED(hr))
+		{
 			return hr;
+		}
 
 		return S_OK;
 	}
@@ -106,6 +106,6 @@ namespace library
 
 	PCWSTR Game::GetGameName() const
 	{
-		return L"Sample window Class";
+		return m_pszGameName;
 	}
 }

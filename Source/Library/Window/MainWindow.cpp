@@ -50,7 +50,7 @@ namespace library
 
     PCWSTR MainWindow::GetWindowClassName() const
     {
-        return L"Sample window Class";
+        return L"TutorialWindowClass";
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M

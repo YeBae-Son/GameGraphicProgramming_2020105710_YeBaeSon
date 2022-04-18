@@ -87,6 +87,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cube\BaseCube.cpp" />
+    <ClCompile Include="Cube\OrbitCube.cpp" />
+    <ClCompile Include="Cube\SunCube.cpp" />
+    <ClCompile Include="Cube\TestCube.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube\BaseCube.h" />
+    <ClInclude Include="Cube\OrbitCube.h" />
+    <ClInclude Include="Cube\SunCube.h" />
+    <ClInclude Include="Cube\TestCube.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

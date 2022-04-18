@@ -79,6 +79,10 @@ namespace library
 		LARGE_INTEGER Frequency;
 
 		MSG msg = { 0 };
+
+		QueryPerformanceFrequency(&Frequency);
+		QueryPerformanceCounter(&StartingTime);
+
 		while (WM_QUIT != msg.message)
 		{
 			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -98,11 +102,11 @@ namespace library
 
 				FLOAT deltaTime = static_cast<FLOAT>(ElapsedMicroseconds.QuadPart) / 1000000.0f;
 
-				//m_renderer->HandleInput(m_mainWindow->getDirections(), m_mainWindow->GetMouseRelativeMovement(), deltatime);
+				//m_renderer->HandleInput(m_mainWindow->getDirections(), m_mainWindow->GetMouseRelativeMovement(), deltatime); assignment1
 				//m_mainWindow->ResetMouseMovemment();
 				m_renderer->Update(deltaTime);
 				m_renderer->Render();
-			}
+			} 
 		}
 
 		return static_cast<INT>(msg.wParam);

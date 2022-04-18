@@ -264,93 +264,6 @@ namespace library
         {
             it->second->Initialize(m_d3dDevice.Get(), m_immediateContext.Get());
         }
-        /*
-        // Compile the vertex shader
-        Microsoft::WRL::ComPtr<ID3DBlob> pVSBlob = nullptr;
-        hr = compileShaderFromFile(L"../../Source/Library/Shaders/Lab03.fxh", "VS", "vs_4_0", pVSBlob.GetAddressOf());
-
-        if (FAILED(hr))
-        {
-            MessageBox(nullptr, L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-            return hr;
-        }
-
-        // Create the vertex shader
-        hr = m_d3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, m_vertexShader.GetAddressOf());
-        if (FAILED(hr))
-        {
-            return hr;
-        }
-
-        // Define the input layout
-        D3D11_INPUT_ELEMENT_DESC layout[] =
-        {
-            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        };
-        UINT numElements = ARRAYSIZE(layout);
-
-        // Create the input layout
-        hr = m_d3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), m_vertexLayout.GetAddressOf());
-
-        if (FAILED(hr))
-        {
-            return hr;
-        }
-
-        // Set the input layout
-        m_immediateContext->IASetInputLayout(m_vertexLayout.Get());
-
-        // Compile the pixel shader
-        Microsoft::WRL::ComPtr<ID3DBlob> pPSBlob = nullptr;
-        //HRESULT Shader::
-        hr = compileShaderFromFile(L"../../Source/Library/Shaders/Lab03.fxh", "PS", "ps_4_0", pPSBlob.GetAddressOf());
-
-        if (FAILED(hr))
-        {
-            MessageBox(nullptr, L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-            return hr;
-        }
-
-        // Create the pixel shader
-        hr = m_d3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, m_pixelShader.GetAddressOf());
-
-        if (FAILED(hr))
-        {
-            return hr;
-        }
-
-        // Create vertex buffer
-        SimpleVertex vertices[] =
-        {
-            XMFLOAT3(0.0f, 0.5f, 0.5f),
-            XMFLOAT3(0.5f, -0.5f, 0.5f),
-            XMFLOAT3(-0.5f, -0.5f, 0.5f),
-        };
-
-        D3D11_BUFFER_DESC bd =
-        {
-            .ByteWidth = sizeof(SimpleVertex) * 3,
-            .Usage = D3D11_USAGE_DEFAULT,
-            .BindFlags = D3D11_BIND_VERTEX_BUFFER,
-            .CPUAccessFlags = 0
-        };
-
-        D3D11_SUBRESOURCE_DATA InitData = { .pSysMem = vertices };
-        hr = m_d3dDevice->CreateBuffer(&bd, &InitData, m_vertexBuffer.GetAddressOf());
-
-        if (FAILED(hr))
-        {
-            return hr;
-        }
-
-        // Set vertex buffer
-        UINT stride = sizeof(SimpleVertex);
-        UINT offset = 0;
-        m_immediateContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
-
-        // Set primitive topology
-        m_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        */
 
         return S_OK;
     }
@@ -373,6 +286,21 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::AddRenderable definition (remove the comment)
     --------------------------------------------------------------------*/
+    HRESULT Renderer::AddRenderable(_In_ PCWSTR pszRenderableName, _In_ const std::shared_ptr<Renderable>& renderable)
+    {
+        /*m_renderables = renderable;
+        m_renderables.key_eq()
+        if (renderable.)
+            m_renderables.contains(pszRenderableName) || !m_vertexShaders.contains(pszVertexShaderName)
+            if (m_renderables.contains(pszRenderableName) || !m_vertexShaders.contains(pszVertexShaderName))
+            {
+                return E_FAIL;
+            }
+            else
+            {
+                return S_OK;
+            }*/
+    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::AddVertexShader
@@ -392,6 +320,11 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::AddVertexShader definition (remove the comment)
     --------------------------------------------------------------------*/
+    HRESULT Renderer::AddVertexShader(_In_ PCWSTR pszVertexShaderName, _In_ const std::shared_ptr<VertexShader>& vertexShader)
+    {
+
+    }
+
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::AddPixelShader
@@ -411,6 +344,10 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::AddPixelShader definition (remove the comment)
     --------------------------------------------------------------------*/
+    HRESULT Renderer::AddPixelShader(_In_ PCWSTR pszPixelShaderName, _In_ const std::shared_ptr<PixelShader>& pixelShader)
+    {
+
+    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::Update
@@ -423,6 +360,15 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::Update definition (remove the comment)
     --------------------------------------------------------------------*/
+    void Renderer::Update(_In_ FLOAT deltaTime)
+    {
+        for (auto it = m_renderables.begin(); it != m_renderables.end(); ++it)
+        {
+            it->second->Update(deltaTime);
+        }
+
+        //m_camera.Update(deltaTime); assignment1
+    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::Render
@@ -432,6 +378,42 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::Render definition (remove the comment)
     --------------------------------------------------------------------*/
+    void Renderer::Render()
+    {
+        m_immediateContext->ClearRenderTargetView(m_renderTargetView.Get(), Colors::MidnightBlue);
+
+        m_immediateContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+        for (auto it = m_renderables.begin(); it != m_renderables.end(); ++it)
+        {
+            UINT uStride = sizeof(SimpleVertex);
+            UINT uOffset = 0;
+            m_immediateContext->IASetVertexBuffers(0u, 1u, it->second->GetVertexBuffer().GetAddressOf(), &uStride, &uOffset);
+
+            //Set index buffer
+            m_immediateContext->IASetIndexBuffer(it->second->GetIndexBuffer().Get(), DXGI_FORMAT_R16_UINT, 0);
+
+            //Set the input layout
+            m_immediateContext->IASetInputLayout(it->second->GetVertexLayout().Get());
+
+            //update variables
+            ConstantBuffer cb =
+            {
+                .World = XMMatrixTranspose(it->second->GetWorldMatrix()),
+                .View = XMMatrixTranspose(m_view), //m_camera.GetView() assignment1
+                .Projection = XMMatrixTranspose(m_projection)
+            };
+            m_immediateContext->UpdateSubresource(it->second->GetConstantBuffer().Get(), 0u, nullptr, &cb, 0u, 1u);
+
+            m_immediateContext->VSSetShader(it->second->GetVertexShader().Get(), nullptr, 0u);
+            m_immediateContext->VSSetConstantBuffers(0, 1, it->second->GetConstantBuffer().GetAddressOf());
+            m_immediateContext->PSSetShader(it->second->GetPixelShader().Get(), nullptr, 0u);
+            m_immediateContext->DrawIndexed(it->second->GetNumIndices(), 0u, 0u);
+        }
+
+        m_swapChain->Present(0, 0);
+    }
+
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::SetVertexShaderOfRenderable
@@ -453,7 +435,15 @@ namespace library
     --------------------------------------------------------------------*/
     HRESULT Renderer::SetVertexShaderOfRenderable(_In_ PCWSTR pszRenderableName, _In_ PCWSTR pszVertexShaderName)
     {
-        Renderable::SetVertexShader(pszRenderableName,pszVertexShaderName);
+        if (m_renderables.contains(pszRenderableName) || !m_vertexShaders.contains(pszVertexShaderName))
+        {
+            return E_FAIL;
+        }
+        else
+        {
+            return S_OK;
+        }
+
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -474,6 +464,19 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::SetPixelShaderOfRenderable definition (remove the comment)
     --------------------------------------------------------------------*/
+    HRESULT Renderer::SetPixelShaderOfRenderable(_In_ PCWSTR pszRenderableName, _In_ PCWSTR pszPixelShaderName)
+    {
+        if (m_renderables.contains(pszRenderableName) || !m_pixelShaders.contains(pszPixelShaderName))
+        {
+            return E_FAIL;
+        }
+        else
+        {
+            return S_OK;
+        }
+
+    }
+
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::GetDriverType
@@ -486,4 +489,8 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Renderer::GetDriverType definition (remove the comment)
     --------------------------------------------------------------------*/
+    D3D_DRIVER_TYPE Renderer::GetDriverType() const
+    {
+        return m_driverType;
+    }
 }

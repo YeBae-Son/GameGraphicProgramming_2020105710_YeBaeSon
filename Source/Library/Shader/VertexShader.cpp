@@ -23,7 +23,7 @@ namespace library
     --------------------------------------------------------------------*/
     VertexShader::VertexShader(_In_ PCWSTR pszFileName, _In_ PCSTR pszEntryPoint, _In_ PCSTR pszShaderModel)
     {
-
+        m_vertexShader->
     }
 
 

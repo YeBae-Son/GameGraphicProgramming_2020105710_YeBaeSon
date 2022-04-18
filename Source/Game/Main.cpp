@@ -63,8 +63,7 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         return 0;
     }
 
-    /*--------------------------------------------------------------------
-      TODO: Add your cubes and set their shaders (remove the comment)
+    //Test Cube
     std::shared_ptr<TestCube> TestCube = std::make_shared<TestCube>();
     if (FAILED(game->GetRenderer()->AddRenderable(L"TestCube", TestCube)))
     {
@@ -78,7 +77,37 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     {
         return 0;
     }
-    --------------------------------------------------------------------*/
+
+    //SunCube
+    std::shared_ptr<SunCube> SunCube = std::make_shared<SunCube>();
+    if (FAILED(game->GetRenderer()->AddRenderable(L"SunCube", SunCube)))
+    {
+        return 0;
+    }
+    if (FAILED(game->GetRenderer()->SetVertexShaderOfRenderable(L"SunCube", L"MainShader")))
+    {
+        return 0;
+    }
+    if (FAILED(game->GetRenderer()->SetPixelShaderOfRenderable(L"SunCube", L"MainShader")))
+    {
+        return 0;
+    }
+
+    //OrbitCube
+    std::shared_ptr<OrbitCube> TestCube = std::make_shared<OrbitCube>();
+    if (FAILED(game->GetRenderer()->AddRenderable(L"OrbitCube", OrbitCube)))
+    {
+        return 0;
+    }
+    if (FAILED(game->GetRenderer()->SetVertexShaderOfRenderable(L"OrbitCube", L"MainShader")))
+    {
+        return 0;
+    }
+    if (FAILED(game->GetRenderer()->SetPixelShaderOfRenderable(L"OrbitCube", L"MainShader")))
+    {
+        return 0;
+    }
+
 
     if (FAILED(game->Initialize(hInstance, nCmdShow)))
     {

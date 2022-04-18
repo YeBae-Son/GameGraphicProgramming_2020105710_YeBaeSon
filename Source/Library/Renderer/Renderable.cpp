@@ -159,7 +159,7 @@ namespace library
     --------------------------------------------------------------------*/
     ComPtr<ID3D11InputLayout>& Renderable::GetVertexLayout()
     {
-        return vertexLay;//???
+        return ;//???
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -238,7 +238,7 @@ namespace library
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     void Renderable::RotateX(_In_ FLOAT angle)
     {
-        // m_world *= x-axis rotation by angle matrix
+        m_world *= XMMatrixRotationX(angle);
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -253,7 +253,7 @@ namespace library
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     void Renderable::RotateY(_In_ FLOAT angle)
     {
-        // m_world *= y-axis rotation by angle matrix
+        m_world *= XMMatrixRotationY(angle);
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -268,7 +268,7 @@ namespace library
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     void Renderable::RotateZ(_In_ FLOAT angle)
     {
-        // m_world *= z-axis rotation by angle matrix
+        m_world *= XMMatrixRotationZ(angle);
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -287,7 +287,7 @@ namespace library
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     void Renderable::RotateRollPitchYaw(_In_ FLOAT pitch, _In_ FLOAT yaw, _In_ FLOAT roll)
     {
-        // m_world *= x, y, z-axis rotation by pitch, yaw, roll matrix
+        m_world *= XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -306,7 +306,7 @@ namespace library
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     void Renderable::Scale(_In_ FLOAT scaleX, _In_ FLOAT scaleY, _In_ FLOAT scaleZ)
     {
-        // m_world *= x, y, z-axis scaling by scale factor matrix
+        m_world *= XMMatrixScaling(scaleX, scaleY, scaleZ);
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
@@ -321,6 +321,6 @@ namespace library
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     void Renderable::Translate(_In_ const XMVECTOR& offset)
     {
-        // m_world *= translate by offset vector matrix
+        m_world *= XMMatrixTranslationFromVector(offset);
     }
 }

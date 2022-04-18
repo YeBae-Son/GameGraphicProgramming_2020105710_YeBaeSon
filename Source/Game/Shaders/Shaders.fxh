@@ -16,6 +16,12 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: ConstantBuffer definition (remove the comment)
 --------------------------------------------------------------------*/
+cbuffer ConstantBuffer : register(b0)
+{
+    matrix World;
+    matrix View;
+    matrix Projection;
+}
 
 //--------------------------------------------------------------------------------------
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
@@ -26,6 +32,10 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: VS_INPUT definition (remove the comment)
 --------------------------------------------------------------------*/
+struct VS_INPUT
+{
+    float4 Pos : POSITION;    
+}
 
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Struct:   PS_INPUT
@@ -36,6 +46,10 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: PS_INPUT definition (remove the comment)
 --------------------------------------------------------------------*/
+struct PS_INPUT
+{
+    float4 Pos : SV_POSITION;
+};
 
 
 //--------------------------------------------------------------------------------------
@@ -44,6 +58,15 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: Vertex Shader function VS definition (remove the comment)
 --------------------------------------------------------------------*/
+PS_INPUT VS(VS_INPUT input)
+{
+    PS_INPUT output = (PS_INPUT)0;
+    output.Pos = mul(input.Pos, World);
+    output.Pos = mul(output.Pos, View);
+    output.Pos = mul(output.Pos, Projection);
+
+    return output;
+}
 
 
 //--------------------------------------------------------------------------------------
@@ -52,3 +75,7 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: Pixel Shader function PS definition (remove the comment)
 --------------------------------------------------------------------*/
+float4 PS(PS_INPUT input) : SV_Target
+{
+    return float4(1.0f, 0.0f, 0.0f, 1.0f);
+}
